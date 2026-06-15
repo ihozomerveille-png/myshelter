@@ -57,21 +57,65 @@ For production-grade deployment with full control.
 
 #### Option 1: Vercel (Recommended)
 
-1. **Install Vercel CLI:**
+This is the easiest and recommended approach: deploy the **frontend** to Vercel and the **backend** to a separate service (Railway, Render, or Heroku). Vercel is ideal for Create React App static builds; Express backends should be deployed on a server or platform that supports long-lived processes.
+
+1. **Option A — Quick (Recommended): Use Vercel for frontend, Railway/Render/Heroku for backend**
+
+   a. Install Vercel CLI (optional):
    ```bash
    npm i -g vercel
    ```
 
-2. **Deploy:**
+   b. Deploy frontend (from project root or from the `frontend` folder):
    ```bash
+   # from repo root (vercel.json included)
+   vercel
+
+   # or explicitly from frontend folder
    cd frontend
    vercel
    ```
 
-3. **Set Environment Variables:**
-   - Go to Vercel dashboard
-   - Project settings → Environment Variables
-   - Add `REACT_APP_API_URL=your_backend_url/api`
+   c. In the Vercel dashboard, set an environment variable for your API base URL:
+   - Key: `REACT_APP_API_URL`
+   - Value: `https://your-backend.example.com/api` (the publicly reachable backend URL)
+
+   d. Redeploy (if needed) so the frontend build picks up the env var.
+
+   Notes:
+   - The included `vercel.json` at the repo root builds the `frontend` package using `@vercel/static-build` and rewrites SPA routes to `/`.
+   - `frontend/src/utils/api.js` reads `process.env.REACT_APP_API_URL` and falls back to `http://localhost:5000/api` for local development.
+
+2. **Deploy backend (Railway / Render / Heroku)**
+
+   Railway (very quick):
+   - Create an account at https://railway.app
+   - Create a new project and link your GitHub repository (select the `backend` folder)
+   - Set environment variables in the Railway dashboard: `MONGODB_URI`, `JWT_SECRET`, `CLOUDINARY_*` etc.
+   - Deploy and copy the public URL Railway provides (e.g., `https://myshelter-backend.up.railway.app`).
+
+   Render: similar flow — create Web Service, point to `backend` folder, set build/start commands (`npm install`, `npm run start`), and set envs.
+
+   Heroku: from `backend` folder:
+   ```bash
+   heroku create myshelter-api
+   git push heroku main
+   heroku config:set MONGODB_URI=... JWT_SECRET=...
+   ```
+
+3. **Set the frontend API URL**
+
+   In Vercel dashboard → Project → Settings → Environment Variables, add:
+   - `REACT_APP_API_URL` = `https://<your-backend-url>/api`
+
+   Re-deploy the frontend after adding this variable.
+
+4. **Local testing**
+
+   - Run backend locally: `cd backend && npm install && npm run dev`
+   - Run frontend locally: `cd frontend && npm install && npm start`
+   - Frontend will proxy API requests to `http://localhost:5000` during local dev (see `proxy` in `frontend/package.json`).
+
 
 #### Option 2: Netlify
 
