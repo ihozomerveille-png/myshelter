@@ -1,0 +1,11 @@
+{
+  "name": "MyShelter",
+  "description": "Housing marketplace for finding and listing properties in Kigali, Rwanda",
+  "version": "1.0.0",
+  "author": "MyShelter Team",
+  "license": "MIT",
+  "structure": {
+    "backend": "Express.js REST API with MongoDB",
+    "frontend": "React 18 web application"
+  }
+}
