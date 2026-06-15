@@ -41,6 +41,19 @@
 3. Set environment variables in dashboard
 4. Deploy with one click
 
+**Railway Quick CLI (optional)**
+
+If you prefer to deploy via Railway CLI (you'll need to login interactively):
+
+```bash
+npx railway login
+npx railway init # initializes a new Railway project in this repo
+# When asked, choose the `backend` folder as the service to deploy
+npx railway up   # deploys the service and prints the public URL
+```
+
+Note: Railway will detect the `Dockerfile` or `package.json` in `backend` and build accordingly. We added a `Dockerfile` and `Procfile` to make this process smooth.
+
 #### Option 3: Render.com
 
 1. Sign up at https://render.com
