@@ -162,6 +162,9 @@ This is the easiest and recommended approach: deploy the **frontend** to Vercel 
    npm run deploy
    ```
 
+> Note: This repository includes a GitHub Actions workflow at `.github/workflows/deploy-frontend.yml` that can automatically build and publish the frontend to GitHub Pages on every push to `main`.
+> The frontend is configured to use hash-based routing for GitHub Pages compatibility.
+
 ## 🗄️ Database Deployment
 
 ### MongoDB Atlas Setup
